@@ -2,17 +2,43 @@ version: '2'
 
 services:
 
-    snappass:
-        build: .
-        image: pinterest/snappass
-        ports:
-            - "5000:5000"
-        stop_signal: SIGINT
-        environment:
-            - REDIS_HOST=redis
-            - NO_SSL=True
-        depends_on:
-          - redis
+  snappass:
+    build: .
+    #image: pinterest/snappass
+    #ports:
+    #   - "5000:5000"
+    stop_signal: SIGINT
+    environment:
+      - REDIS_HOST=redis
+      - NO_SSL=True
+      - VIRTUAL_HOST=share.brothertec.eu
+      - VIRTUAL_PORT=5000
+      - LETSENCRYPT_HOST=share.brothertec.eu
+      - LETSENCRYPT_EMAIL=admin@brothertec.eu
 
-    redis:
-        image: "redis:latest"
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
+
+    networks:
+      - default
+      - proxy
+      - edge-tier
+
+    depends_on:
+      - redis
+
+  redis:
+    image: "redis:latest"
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+
+networks:
+  proxy:
+    name: nginx-proxy
+    external: true
+  edge-tier:
+    name: edge
+    external: true
