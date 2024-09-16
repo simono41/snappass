@@ -11,7 +11,7 @@ services:
     environment:
       - REDIS_HOST=redis
       - NO_SSL=false
-      - SECRET_KEY=$SECRET_KEY
+      - SECRET_KEY=${SECRET_KEY}
       - VIRTUAL_HOST=share.brothertec.eu
       - VIRTUAL_PORT=5000
       - LETSENCRYPT_HOST=share.brothertec.eu
