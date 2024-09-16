@@ -10,7 +10,7 @@ services:
     stop_signal: SIGINT
     environment:
       - REDIS_HOST=redis
-      - NO_SSL=True
+      - NO_SSL=false
       - VIRTUAL_HOST=share.brothertec.eu
       - VIRTUAL_PORT=5000
       - LETSENCRYPT_HOST=share.brothertec.eu
